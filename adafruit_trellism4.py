@@ -229,7 +229,6 @@ class TrellisM4Express:
                 trellis.pixels.fill((255, 0, 0))
         """
 
-        print(dir(board))
         cols = []
         for x in range(8):
             col = digitalio.DigitalInOut(getattr(board, "COL{}".format(x)))
