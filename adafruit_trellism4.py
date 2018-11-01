@@ -54,12 +54,14 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_TrellisM4.git"
 class _NeoPixelArray:
     """Creates a NeoPixel array for use in the ``TrellisM4Express`` class."""
     def __init__(self, pin, *, width, height, rotation=0):
-        self._width = width
-        self._height = height
         self._neopixel = neopixel.NeoPixel(pin, width * height, auto_write=False)
         if rotation % 90 != 0:
             raise ValueError("Only 90 degree rotations supported")
         self._rotation = rotation % 360
+        if self._rotation in (90, 270):
+            width, height = height, width
+        self._width = width
+        self._height = height
 
     def __setitem__(self, index, value):
         if not isinstance(index, tuple) or len(index) != 2:
@@ -70,9 +72,9 @@ class _NeoPixelArray:
             if self._rotation == 180:
                 offset = self.width * self.height - offset - 1
         elif self._rotation == 270:
-            offset = self.width * index[0] + (self.width - index[1] - 1)
+            offset = self.height * index[0] + (self.height - index[1] - 1)
         elif self._rotation == 90:
-            offset = self.width * (self.height - index[0] - 1) + index[1]
+            offset = self.height * (self.width - index[0] - 1) + index[1]
 
         self._neopixel[offset] = value
         self._neopixel.show()
