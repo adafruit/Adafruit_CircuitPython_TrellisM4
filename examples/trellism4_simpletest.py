@@ -1,6 +1,4 @@
-import adafruit_trellism4
-
-trellis = adafruit_trellism4.TrellisM4Express()
+from adafruit_trellism4 import trellis
 
 while True:
     pressed = trellis.pressed_keys
