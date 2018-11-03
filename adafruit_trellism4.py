@@ -87,7 +87,7 @@ class _NeoPixelArray:
         The overall brightness of the pixel. Must be a number between 0 and
         1, where the number represents a percentage between 0 and 100, i.e. ``0.3`` is 30%.
 
-        This example turns all the LEDs red and sets the brightness to ``0.3``:
+        This example sets the brightness to ``0.3`` and turns all the LEDs red:
 
         .. code-block:: python
 
@@ -178,8 +178,8 @@ class TrellisM4Express:
         self._rotation = rotation
 
         # Define accelerometer
-        self._i2c = busio.I2C(board.ACCELEROMETER_SCL, board.ACCELEROMETER_SDA)
-        self._adxl345 = adafruit_adxl34x.ADXL345(self._i2c)
+        i2c = busio.I2C(board.ACCELEROMETER_SCL, board.ACCELEROMETER_SDA)
+        self._adxl345 = adafruit_adxl34x.ADXL345(i2c)
 
         # Define NeoPixels
         self.pixels = _NeoPixelArray(board.NEOPIXEL, width=8, height=4, rotation=rotation)
@@ -223,7 +223,7 @@ class TrellisM4Express:
         ``pixels.brightness``: The overall brightness of the pixel. Must be a number between 0 and
         1, where the number represents a percentage between 0 and 100, i.e. ``0.3`` is 30%.
 
-            This example turns all the LEDs red and sets the brightness to ``0.3``:
+            This example sets the brightness to ``0.3`` and turns all the LEDs red:
 
             .. code-block:: python
 
