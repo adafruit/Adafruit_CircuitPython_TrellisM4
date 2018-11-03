@@ -44,9 +44,9 @@ Implementation Notes
 
 import board
 import digitalio
+import busio
 import neopixel
 import adafruit_matrixkeypad
-import busio
 import adafruit_adxl34x
 
 __version__ = "0.0.0-auto.0"
@@ -302,7 +302,7 @@ class TrellisM4Express:
         return self._adxl345.acceleration
 
 
-trellis = TrellisM4Express()
+trellis = TrellisM4Express()  # pylint: disable=invalid-name
 """Object that is automatically created on import.
 
    To use, simply import it from the module:
