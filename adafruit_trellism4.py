@@ -44,8 +44,10 @@ Implementation Notes
 
 import board
 import digitalio
+import busio
 import neopixel
 import adafruit_matrixkeypad
+import adafruit_adxl34x
 
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_TrellisM4.git"
@@ -82,7 +84,18 @@ class _NeoPixelArray:
     @property
     def brightness(self):
         """
-        Overall brightness of the pixel.
+        The overall brightness of the pixel. Must be a number between 0 and
+        1, where the number represents a percentage between 0 and 100, i.e. ``0.3`` is 30%.
+
+        This example sets the brightness to ``0.3`` and turns all the LEDs red:
+
+        .. code-block:: python
+
+            from adafruit_trellism4 import trellis
+
+            trellis.pixels.brightness = 0.3
+
+            trellis.pixels.fill((255, 0, 0))
         """
         return self._neopixel.brightness
 
@@ -99,9 +112,7 @@ class _NeoPixelArray:
 
         .. code-block:: python
 
-            import adafruit_trellism4
-
-            trellis = adafruit_trellism4.TrellisM4Express()
+            from adafruit_trellism4 import trellis
 
             trellis.pixels.fill((255, 0, 0))
 
@@ -116,9 +127,7 @@ class _NeoPixelArray:
 
         .. code-block:: python
 
-            import adafruit_trellism4
-
-            trellis = adafruit_trellism4.TrellisM4Express()
+            from adafruit_trellism4 import trellis
 
             for x in range(trellis.pixels.width):
                 for y in range(trellis.pixels.height):
@@ -132,9 +141,7 @@ class _NeoPixelArray:
 
         .. code-block:: python
 
-            import adafruit_trellism4
-
-            trellis = adafruit_trellism4.TrellisM4Express()
+            from adafruit_trellism4 import trellis
 
             for x in range(trellis.pixels.width):
                 for y in range(trellis.pixels.height):
@@ -155,9 +162,7 @@ class TrellisM4Express:
     .. code-block:: python
 
          import time
-         import adafruit_trellism4
-
-         trellis = adafruit_trellism4.TrellisM4Express()
+         from adafruit_trellism4 import trellis
 
          current_press = set()
          while True:
@@ -171,6 +176,12 @@ class TrellisM4Express:
     """
     def __init__(self, rotation=0):
         self._rotation = rotation
+
+        # Define accelerometer
+        i2c = busio.I2C(board.ACCELEROMETER_SCL, board.ACCELEROMETER_SDA)
+        self._adxl345 = adafruit_adxl34x.ADXL345(i2c)
+
+        # Define NeoPixels
         self.pixels = _NeoPixelArray(board.NEOPIXEL, width=8, height=4, rotation=rotation)
         """Sequence like object representing the 32 NeoPixels on the Trellis M4 Express, Provides a
         two dimensional representation of the NeoPixel grid.
@@ -179,9 +190,7 @@ class TrellisM4Express:
 
         .. code-block:: python
 
-            import adafruit_trellism4
-
-            trellis = adafruit_trellism4.TrellisM4Express()
+            from adafruit_trellism4 import trellis
 
             trellis.pixels[0, 0] = (0, 255, 0)
 
@@ -194,9 +203,7 @@ class TrellisM4Express:
 
             .. code-block:: python
 
-                import adafruit_trellism4
-
-                trellis = adafruit_trellism4.TrellisM4Express()
+                from adafruit_trellism4 import trellis
 
                 trellis.pixels.fill((255, 0, 0))
 
@@ -207,9 +214,7 @@ class TrellisM4Express:
 
             .. code-block:: python
 
-                import adafruit_trellism4
-
-                trellis = adafruit_trellism4.TrellisM4Express()
+                from adafruit_trellism4 import trellis
 
                 for x in range(trellis.pixels.width):
                     for y in range(trellis.pixels.height):
@@ -218,13 +223,11 @@ class TrellisM4Express:
         ``pixels.brightness``: The overall brightness of the pixel. Must be a number between 0 and
         1, where the number represents a percentage between 0 and 100, i.e. ``0.3`` is 30%.
 
-            This example turns all the LEDs red and sets the brightness to ``0.3``:
+            This example sets the brightness to ``0.3`` and turns all the LEDs red:
 
             .. code-block:: python
 
-                import adafruit_trellism4
-
-                trellis = adafruit_trellism4.TrellisM4Express()
+                from adafruit_trellism4 import trellis
 
                 trellis.pixels.brightness = 0.3
 
@@ -265,9 +268,7 @@ class TrellisM4Express:
         .. code-block:: python
 
             import time
-            import adafruit_trellism4
-
-            trellis = adafruit_trellism4.TrellisM4Express()
+            from adafruit_trellism4 import trellis
 
             current_press = set()
             while True:
@@ -280,3 +281,33 @@ class TrellisM4Express:
                 current_press = pressed
         """
         return self._matrix.pressed_keys
+
+    @property
+    def acceleration(self):
+        """Obtain data from the x, y and z axes.
+
+        This example prints the values. Try moving the board to see how the
+        printed values change.
+
+        .. code-block:: python
+
+          import time
+          from adafruit_trellism4 import trellis
+
+          while True:
+              x, y, z = trellis.acceleration
+              print(x, y, z)
+              time.sleep(0.1)
+        """
+        return self._adxl345.acceleration
+
+
+trellis = TrellisM4Express()  # pylint: disable=invalid-name
+"""Object that is automatically created on import.
+
+   To use, simply import it from the module:
+
+   .. code-block:: python
+
+       from adafruit_trellism4 import trellis
+"""
