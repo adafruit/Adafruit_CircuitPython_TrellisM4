@@ -1,7 +1,9 @@
 """Test your Trellis M4 Express without needing the serial output.
 Press any button and the rest will light up the same color!"""
 import time
-from adafruit_trellism4 import trellis
+import adafruit_trellism4
+
+trellis = adafruit_trellism4.TrellisM4Express()
 
 
 def wheel(pos):

@@ -91,7 +91,9 @@ class _NeoPixelArray:
 
         .. code-block:: python
 
-            from adafruit_trellism4 import trellis
+            import adafruit_trellism4
+
+            trellis = adafruit_trellism4.TrellisM4Express()
 
             trellis.pixels.brightness = 0.3
 
@@ -112,7 +114,9 @@ class _NeoPixelArray:
 
         .. code-block:: python
 
-            from adafruit_trellism4 import trellis
+            import adafruit_trellism4
+
+            trellis = adafruit_trellism4.TrellisM4Express()
 
             trellis.pixels.fill((255, 0, 0))
 
@@ -127,7 +131,9 @@ class _NeoPixelArray:
 
         .. code-block:: python
 
-            from adafruit_trellism4 import trellis
+            import adafruit_trellism4
+
+            trellis = adafruit_trellism4.TrellisM4Express()
 
             for x in range(trellis.pixels.width):
                 for y in range(trellis.pixels.height):
@@ -141,7 +147,9 @@ class _NeoPixelArray:
 
         .. code-block:: python
 
-            from adafruit_trellism4 import trellis
+            import adafruit_trellism4
+
+            trellis = adafruit_trellism4.TrellisM4Express()
 
             for x in range(trellis.pixels.width):
                 for y in range(trellis.pixels.height):
@@ -162,7 +170,9 @@ class TrellisM4Express:
     .. code-block:: python
 
          import time
-         from adafruit_trellism4 import trellis
+         import adafruit_trellism4
+
+         trellis = adafruit_trellism4.TrellisM4Express()
 
          current_press = set()
          while True:
@@ -190,7 +200,9 @@ class TrellisM4Express:
 
         .. code-block:: python
 
-            from adafruit_trellism4 import trellis
+            import adafruit_trellism4
+
+            trellis = adafruit_trellism4.TrellisM4Express()
 
             trellis.pixels[0, 0] = (0, 255, 0)
 
@@ -203,7 +215,9 @@ class TrellisM4Express:
 
             .. code-block:: python
 
-                from adafruit_trellism4 import trellis
+                import adafruit_trellism4
+
+                trellis = adafruit_trellism4.TrellisM4Express()
 
                 trellis.pixels.fill((255, 0, 0))
 
@@ -214,7 +228,9 @@ class TrellisM4Express:
 
             .. code-block:: python
 
-                from adafruit_trellism4 import trellis
+                import adafruit_trellism4
+
+                trellis = adafruit_trellism4.TrellisM4Express()
 
                 for x in range(trellis.pixels.width):
                     for y in range(trellis.pixels.height):
@@ -227,7 +243,9 @@ class TrellisM4Express:
 
             .. code-block:: python
 
-                from adafruit_trellism4 import trellis
+                import adafruit_trellism4
+
+                trellis = adafruit_trellism4.TrellisM4Express()
 
                 trellis.pixels.brightness = 0.3
 
@@ -268,7 +286,9 @@ class TrellisM4Express:
         .. code-block:: python
 
             import time
-            from adafruit_trellism4 import trellis
+            import adafruit_trellism4
+
+            trellis = adafruit_trellism4.TrellisM4Express()
 
             current_press = set()
             while True:
@@ -291,23 +311,14 @@ class TrellisM4Express:
 
         .. code-block:: python
 
-          import time
-          from adafruit_trellism4 import trellis
+            import time
+            import adafruit_trellism4
 
-          while True:
-              x, y, z = trellis.acceleration
-              print(x, y, z)
-              time.sleep(0.1)
+            trellis = adafruit_trellism4.TrellisM4Express()
+
+            while True:
+                x, y, z = trellis.acceleration
+                print(x, y, z)
+                time.sleep(0.1)
         """
         return self._adxl345.acceleration
-
-
-trellis = TrellisM4Express()  # pylint: disable=invalid-name
-"""Object that is automatically created on import.
-
-   To use, simply import it from the module:
-
-   .. code-block:: python
-
-       from adafruit_trellism4 import trellis
-"""
