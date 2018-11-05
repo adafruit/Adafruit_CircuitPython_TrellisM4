@@ -68,6 +68,8 @@ class _NeoPixelArray:
     def __setitem__(self, index, value):
         if not isinstance(index, tuple) or len(index) != 2:
             raise IndexError("Index must be tuple")
+        if index[0] > 7 or index[1] > 7:
+            raise IndexError("Pixel assignment outside available coordinates.")
 
         if self._rotation == 0 or self._rotation == 180:
             offset = self.width * index[1] + index[0]
@@ -77,6 +79,9 @@ class _NeoPixelArray:
             offset = self.height * index[0] + (self.height - index[1] - 1)
         elif self._rotation == 90:
             offset = self.height * (self.width - index[0] - 1) + index[1]
+
+        if offset < 0:
+            raise IndexError("Pixel assignment outside available coordinates.")
 
         self._neopixel[offset] = value
         self._neopixel.show()
@@ -267,9 +272,9 @@ class TrellisM4Express:
             row = []
             for x in range(4):
                 if rotation == 0:
-                    coord = (x, y)
+                    coord = (y, x)
                 elif rotation == 180:
-                    coord = (3 - x, 7 - y)
+                    coord = (7 - y, 3 - x)
                 elif rotation == 90:
                     coord = (3 - x, y)
                 elif rotation == 270:
