@@ -68,7 +68,7 @@ class _NeoPixelArray:
     def __setitem__(self, index, value):
         if not isinstance(index, tuple) or len(index) != 2:
             raise IndexError("Index must be tuple")
-        if index[0] > 7 or index[1] > 7:
+        if index[0] >= self.width or index[1] >= self.height:
             raise IndexError("Pixel assignment outside available coordinates.")
 
         if self._rotation == 0 or self._rotation == 180:
