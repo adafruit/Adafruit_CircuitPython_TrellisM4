@@ -47,7 +47,6 @@ import digitalio
 import busio
 import neopixel
 import adafruit_matrixkeypad
-import adafruit_adxl34x
 
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_TrellisM4.git"
@@ -186,10 +185,6 @@ class TrellisM4Express:
     """
     def __init__(self, rotation=0):
         self._rotation = rotation
-
-        # Define accelerometer
-        i2c = busio.I2C(board.ACCELEROMETER_SCL, board.ACCELEROMETER_SDA)
-        self._adxl345 = adafruit_adxl34x.ADXL345(i2c)
 
         # Define NeoPixels
         self.pixels = _NeoPixelArray(board.NEOPIXEL, width=8, height=4, rotation=rotation)
