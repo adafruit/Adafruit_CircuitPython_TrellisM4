@@ -44,10 +44,8 @@ Implementation Notes
 
 import board
 import digitalio
-import busio
 import neopixel
 import adafruit_matrixkeypad
-import adafruit_adxl34x
 
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_TrellisM4.git"
@@ -187,10 +185,6 @@ class TrellisM4Express:
     def __init__(self, rotation=0):
         self._rotation = rotation
 
-        # Define accelerometer
-        i2c = busio.I2C(board.ACCELEROMETER_SCL, board.ACCELEROMETER_SDA)
-        self._adxl345 = adafruit_adxl34x.ADXL345(i2c)
-
         # Define NeoPixels
         self.pixels = _NeoPixelArray(board.NEOPIXEL, width=8, height=4, rotation=rotation)
         """Sequence like object representing the 32 NeoPixels on the Trellis M4 Express, Provides a
@@ -301,24 +295,3 @@ class TrellisM4Express:
                 current_press = pressed
         """
         return self._matrix.pressed_keys
-
-    @property
-    def acceleration(self):
-        """Obtain data from the x, y and z axes.
-
-        This example prints the values. Try moving the board to see how the
-        printed values change.
-
-        .. code-block:: python
-
-            import time
-            import adafruit_trellism4
-
-            trellis = adafruit_trellism4.TrellisM4Express()
-
-            while True:
-                x, y, z = trellis.acceleration
-                print(x, y, z)
-                time.sleep(0.1)
-        """
-        return self._adxl345.acceleration
