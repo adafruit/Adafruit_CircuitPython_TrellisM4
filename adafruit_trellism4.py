@@ -44,7 +44,6 @@ Implementation Notes
 
 import board
 import digitalio
-import busio
 import neopixel
 import adafruit_matrixkeypad
 
@@ -296,24 +295,3 @@ class TrellisM4Express:
                 current_press = pressed
         """
         return self._matrix.pressed_keys
-
-    @property
-    def acceleration(self):
-        """Obtain data from the x, y and z axes.
-
-        This example prints the values. Try moving the board to see how the
-        printed values change.
-
-        .. code-block:: python
-
-            import time
-            import adafruit_trellism4
-
-            trellis = adafruit_trellism4.TrellisM4Express()
-
-            while True:
-                x, y, z = trellis.acceleration
-                print(x, y, z)
-                time.sleep(0.1)
-        """
-        return self._adxl345.acceleration
