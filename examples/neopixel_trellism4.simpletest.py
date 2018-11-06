@@ -30,7 +30,7 @@ while True:
     for press in pressed - current_press:
         if press:
             print("Pressed:", press)
-            pixel = (press[0] * 8) + press[1]
+            pixel = (press[1] * 8) + press[0]
             pixel_index = (pixel * 256 // 32)
             trellis.pixels.fill(wheel(pixel_index & 255))
     for release in current_press - pressed:
