@@ -15,14 +15,14 @@ def wheel(pos):
     return int(pos * 3), 0, int(255 - (pos * 3))
 
 
-trellis.pixels.fill((0, 0, 0))
-
 led_on = []
 
 for x in range(trellis.pixels.width):
     led_on.append([])
     for y in range(trellis.pixels.height):
         led_on[x].append(False)
+
+trellis.pixels.fill((0, 0, 0))
 
 current_press = set()
 
