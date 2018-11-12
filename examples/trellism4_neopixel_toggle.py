@@ -31,6 +31,7 @@ while True:
 
     for press in pressed - current_press:
         x, y = press
+
         if not led_on[x][y]:
             print("Turning on:", press)
             pixel_index = ((x + (y * 8)) * 256 // 32)
