@@ -54,7 +54,7 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_TrellisM4.git"
 class _NeoPixelArray:
     """Creates a NeoPixel array for use in the ``TrellisM4Express`` class."""
     def __init__(self, pin, *, width, height, rotation=0):
-        self._neopixel = neopixel.NeoPixel(pin, width * height, auto_write=False)
+        self._neopixel = neopixel.NeoPixel(pin, width * height, auto_write=True)
         if rotation % 90 != 0:
             raise ValueError("Only 90 degree rotations supported")
         self._rotation = rotation % 360
@@ -82,7 +82,49 @@ class _NeoPixelArray:
             raise IndexError("Pixel assignment outside available coordinates.")
 
         self._neopixel[offset] = value
+
+    def show(self):
+        """
+        Shows the new colors on the pixels themselves if they haven't already
+        been autowritten.
+
+        Use when ``auto_write`` is set to ``False``.
+
+        The colors may or may not be showing after this function returns because
+        it may be done asynchronously.
+        """
         self._neopixel.show()
+
+    @property
+    def auto_write(self):
+        """
+        True if the neopixels should immediately change when set. If False,
+        ``show`` must be called explicitly.
+
+        This example disables ``auto_write``, sets every pixel, calls ``show()``, then
+        re-enables ``auto-write``.
+
+        .. code-block:: python
+
+            import adafruit_trellism4
+
+            trellis = adafruit_trellism4.TrellisM4Express()
+
+            trellis.pixels.auto_write = False
+
+            for x in range(trellis.pixels.width):
+                for y in range(trellis.pixels.height):
+                    trellis.pixels[x, y] = (0, 255, 0)
+
+            trellis.pixels.show() # must call show() when auto_write == False
+
+            trellis.pixels.auto_write = True
+        """
+        return self._neopixel.auto_write
+
+    @auto_write.setter
+    def auto_write(self, val):
+        self._neopixel.auto_write = val
 
     @property
     def brightness(self):
@@ -125,7 +167,6 @@ class _NeoPixelArray:
 
         """
         self._neopixel.fill(color)
-        self._neopixel.show()
 
     @property
     def width(self):
