@@ -9,8 +9,8 @@ Introduction
     :target: https://discord.gg/nBQh6qu
     :alt: Discord
 
-.. image:: https://travis-ci.org/adafruit/Adafruit_CircuitPython_TrellisM4.svg?branch=master
-    :target: https://travis-ci.org/adafruit/Adafruit_CircuitPython_TrellisM4
+.. image:: https://travis-ci.com/adafruit/Adafruit_CircuitPython_TrellisM4.svg?branch=master
+    :target: https://travis-ci.com/adafruit/Adafruit_CircuitPython_TrellisM4
     :alt: Build Status
 
 This high level library provides objects that represent Trellis M4 hardware.
