@@ -69,7 +69,7 @@ class _NeoPixelArray:
         if index[0] >= self.width or index[1] >= self.height:
             raise IndexError("Pixel assignment outside available coordinates.")
 
-        offset = self.__calculatePixelOffset(index);
+        offset = self.__calculate_pixel_offset(index)
 
         self._neopixel[offset] = value
 
@@ -79,11 +79,11 @@ class _NeoPixelArray:
         if index[0] >= self.width or index[1] >= self.height:
             raise IndexError("Pixel outside available coordinates.")
 
-        offset = self.__calculatePixelOffset(index)
+        offset = self.__calculate_pixel_offset(index)
 
         return self._neopixel[offset]
 
-    def __calculatePixelOffset(self, index):
+    def __calculate_pixel_offset(self, index):
         if self._rotation == 0 or self._rotation == 180:
             offset = self.width * index[1] + index[0]
             if self._rotation == 180:
@@ -95,9 +95,8 @@ class _NeoPixelArray:
 
         if offset < 0:
             raise IndexError("Pixel outside available coordinates.")
-    
+
         return offset
-    
 
     def show(self):
         """
