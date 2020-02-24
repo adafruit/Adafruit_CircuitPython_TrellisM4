@@ -77,7 +77,7 @@ while True:
             # if it's a note key. First 7 columns.
             if key[0] < len(note_letters):
                 # if we aren't already playing this note and we have available voice
-                if key not in used_voices.keys() and len(available_voices) > 0:
+                if key not in used_voices.keys() and available_voices:
                     # build not string
                     note_for_key = "{}{}".format(note_letters[key[0]], key[1]+3)
                     note_to_play = "{}{}".format(current_wave_type, note_for_key)
@@ -97,7 +97,7 @@ while True:
                 trellis.pixels[7, key[1]] = (255, 255, 255)
         if mixer.playing:
             # loop over each note that is playing
-            for key in used_voices.keys():
+            for key in used_voices:
                 # if the key is no longer down
                 if key not in cur_keys:
                     # stop playing
