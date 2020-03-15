@@ -53,6 +53,7 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_TrellisM4.git"
 
 class _NeoPixelArray:
     """Creates a NeoPixel array for use in the ``TrellisM4Express`` class."""
+
     def __init__(self, pin, *, width, height, rotation=0):
         self._neopixel = neopixel.NeoPixel(pin, width * height, auto_write=True)
         if rotation % 90 != 0:
@@ -243,11 +244,14 @@ class TrellisM4Express:
             time.sleep(0.08)
             current_press = pressed
     """
+
     def __init__(self, rotation=0):
         self._rotation = rotation
 
         # Define NeoPixels
-        self.pixels = _NeoPixelArray(board.NEOPIXEL, width=8, height=4, rotation=rotation)
+        self.pixels = _NeoPixelArray(
+            board.NEOPIXEL, width=8, height=4, rotation=rotation
+        )
         """Sequence like object representing the 32 NeoPixels on the Trellis M4 Express, Provides a
         two dimensional representation of the NeoPixel grid.
 
