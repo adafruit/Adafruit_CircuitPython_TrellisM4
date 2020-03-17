@@ -34,7 +34,7 @@ while True:
 
         if not led_on[x][y]:
             print("Turning on:", press)
-            pixel_index = ((x + (y * 8)) * 256 // 32)
+            pixel_index = (x + (y * 8)) * 256 // 32
             trellis.pixels[x, y] = wheel(pixel_index & 255)
             led_on[x][y] = True
 
