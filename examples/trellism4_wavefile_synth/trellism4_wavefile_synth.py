@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
+#
+# SPDX-License-Identifier: MIT
+
 """
 This synthesizer is loaded with wave files for 3 octaves of notes each in 4 different waveforms.
 It uses Mixer to play up to 7 notes at once.
