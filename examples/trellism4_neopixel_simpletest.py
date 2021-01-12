@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
+# SPDX-License-Identifier: MIT
+
 """Test your Trellis M4 Express without needing the serial output.
 Press any button and the rest will light up the same color!"""
 import time
