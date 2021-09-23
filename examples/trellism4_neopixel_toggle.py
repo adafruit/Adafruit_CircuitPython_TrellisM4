@@ -1,22 +1,10 @@
 # SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
 # SPDX-License-Identifier: MIT
 
+from rainbowio import colorwheel
 import adafruit_trellism4
 
 trellis = adafruit_trellism4.TrellisM4Express()
-
-
-def wheel(pos):
-    if pos < 0 or pos > 255:
-        return 0, 0, 0
-    if pos < 85:
-        return int(255 - pos * 3), int(pos * 3), 0
-    if pos < 170:
-        pos -= 85
-        return 0, int(255 - pos * 3), int(pos * 3)
-    pos -= 170
-    return int(pos * 3), 0, int(255 - (pos * 3))
-
 
 led_on = []
 
@@ -38,7 +26,7 @@ while True:
         if not led_on[x][y]:
             print("Turning on:", press)
             pixel_index = (x + (y * 8)) * 256 // 32
-            trellis.pixels[x, y] = wheel(pixel_index & 255)
+            trellis.pixels[x, y] = colorwheel(pixel_index & 255)
             led_on[x][y] = True
 
         else:

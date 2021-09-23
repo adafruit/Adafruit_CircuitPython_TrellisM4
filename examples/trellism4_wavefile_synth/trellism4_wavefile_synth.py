@@ -7,6 +7,7 @@ This synthesizer is loaded with wave files for 3 octaves of notes each in 4 diff
 It uses Mixer to play up to 7 notes at once.
 Play notes with the rainbow buttons. Change waveform types ith the white buttons in the last column.
 """
+# pylint: disable=consider-using-with,consider-using-dict-items
 import board
 from audiocore import WaveFile
 from audioio import AudioOut
