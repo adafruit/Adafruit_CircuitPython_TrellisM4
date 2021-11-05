@@ -68,7 +68,7 @@ class _NeoPixelArray:
         return self._neopixel[offset]
 
     def _calculate_pixel_offset(self, index):
-        if self._rotation == 0 or self._rotation == 180:
+        if self._rotation in (0, 180):
             offset = self.width * index[1] + index[0]
             if self._rotation == 180:
                 offset = self.width * self.height - offset - 1
