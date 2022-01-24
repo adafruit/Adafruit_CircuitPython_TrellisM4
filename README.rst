@@ -2,7 +2,7 @@ Introduction
 ============
 
 .. image:: https://readthedocs.org/projects/adafruit-circuitpython-trellism4/badge/?version=latest
-    :target: https://circuitpython.readthedocs.io/projects/trellism4/en/latest/
+    :target: https://docs.circuitpython.org/projects/trellism4/en/latest/
     :alt: Documentation Status
 
 .. image:: https://img.shields.io/discord/327254708534116352.svg
@@ -75,7 +75,7 @@ This example prints out the coordinates of a button each time it is pressed and 
 Documentation
 =============
 
-API documentation for this library can be found on `Read the Docs <https://circuitpython.readthedocs.io/projects/trellism4/en/latest/>`_.
+API documentation for this library can be found on `Read the Docs <https://docs.circuitpython.org/projects/trellism4/en/latest/>`_.
 
 Contributing
 ============
