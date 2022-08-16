@@ -30,7 +30,7 @@ import digitalio
 import neopixel
 import adafruit_matrixkeypad
 
-__version__ = "0.0.0-auto.0"
+__version__ = "0.0.0+auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_TrellisM4.git"
 
 
