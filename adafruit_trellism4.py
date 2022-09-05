@@ -30,6 +30,12 @@ import digitalio
 import neopixel
 import adafruit_matrixkeypad
 
+try:
+    from typing import List, Optional, Tuple, Union
+    from microcontroller import Pin
+except ImportError:
+    pass
+
 __version__ = "0.0.0+auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_TrellisM4.git"
 
@@ -37,7 +43,7 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_TrellisM4.git"
 class _NeoPixelArray:
     """Creates a NeoPixel array for use in the ``TrellisM4Express`` class."""
 
-    def __init__(self, pin, *, width, height, rotation=0):
+    def __init__(self, pin: Pin, *, width: int, height: int, rotation: int = 0) -> None:
         self._neopixel = neopixel.NeoPixel(pin, width * height, auto_write=True)
         if rotation % 90 != 0:
             raise ValueError("Only 90 degree rotations supported")
@@ -47,7 +53,7 @@ class _NeoPixelArray:
         self._width = width
         self._height = height
 
-    def __setitem__(self, index, value):
+    def __setitem__(self, index: Tuple[int, int], value: int) -> None:
         if not isinstance(index, tuple) or len(index) != 2:
             raise IndexError("Index must be tuple")
         if index[0] >= self.width or index[1] >= self.height:
@@ -57,7 +63,7 @@ class _NeoPixelArray:
 
         self._neopixel[offset] = value
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: Tuple[int, int]) -> int:
         if not isinstance(index, tuple) or len(index) != 2:
             raise IndexError("Index must be tuple")
         if index[0] >= self.width or index[1] >= self.height:
@@ -67,7 +73,7 @@ class _NeoPixelArray:
 
         return self._neopixel[offset]
 
-    def _calculate_pixel_offset(self, index):
+    def _calculate_pixel_offset(self, index: Tuple[int, int]) -> Optional[int]:
         if self._rotation in (0, 180):
             offset = self.width * index[1] + index[0]
             if self._rotation == 180:
@@ -82,7 +88,7 @@ class _NeoPixelArray:
 
         return offset
 
-    def show(self):
+    def show(self) -> None:
         """
         Shows the new colors on the pixels themselves if they haven't already
         been autowritten.
@@ -95,7 +101,7 @@ class _NeoPixelArray:
         self._neopixel.show()
 
     @property
-    def auto_write(self):
+    def auto_write(self) -> bool:
         """
         True if the neopixels should immediately change when set. If False,
         ``show`` must be called explicitly.
@@ -122,11 +128,11 @@ class _NeoPixelArray:
         return self._neopixel.auto_write
 
     @auto_write.setter
-    def auto_write(self, val):
+    def auto_write(self, val: bool) -> None:
         self._neopixel.auto_write = val
 
     @property
-    def brightness(self):
+    def brightness(self) -> float:
         """
         The overall brightness of the pixel. Must be a number between 0 and
         1, where the number represents a percentage between 0 and 100, i.e. ``0.3`` is 30%.
@@ -146,10 +152,10 @@ class _NeoPixelArray:
         return self._neopixel.brightness
 
     @brightness.setter
-    def brightness(self, brightness):
+    def brightness(self, brightness: float) -> None:
         self._neopixel.brightness = brightness
 
-    def fill(self, color):
+    def fill(self, color: Union[Tuple[int, int, int], int]) -> None:
         """
         Colors all the pixels a given color.
 
@@ -168,7 +174,7 @@ class _NeoPixelArray:
         self._neopixel.fill(color)
 
     @property
-    def width(self):
+    def width(self) -> int:
         """
         The width of the grid. When ``rotation`` is 0, ``width`` is 8.
 
@@ -185,7 +191,7 @@ class _NeoPixelArray:
         return self._width
 
     @property
-    def height(self):
+    def height(self) -> int:
         """The height of the grid. When ``rotation`` is 0, ``height`` is 4.
 
         .. code-block:: python
@@ -228,7 +234,7 @@ class TrellisM4Express:
             current_press = pressed
     """
 
-    def __init__(self, rotation=0):
+    def __init__(self, rotation: int = 0) -> None:
         self._rotation = rotation
 
         # Define NeoPixels
@@ -296,12 +302,12 @@ class TrellisM4Express:
 
         cols = []
         for x in range(8):
-            col = digitalio.DigitalInOut(getattr(board, "COL{}".format(x)))
+            col = digitalio.DigitalInOut(getattr(board, f"COL{x}"))
             cols.append(col)
 
         rows = []
         for y in range(4):
-            row = digitalio.DigitalInOut(getattr(board, "ROW{}".format(y)))
+            row = digitalio.DigitalInOut(getattr(board, f"ROW{y}"))
             rows.append(row)
 
         key_names = []
@@ -322,7 +328,7 @@ class TrellisM4Express:
         self._matrix = adafruit_matrixkeypad.Matrix_Keypad(cols, rows, key_names)
 
     @property
-    def pressed_keys(self):
+    def pressed_keys(self) -> List[Tuple[int, int]]:
         """A list of tuples of currently pressed button coordinates.
 
         .. code-block:: python
