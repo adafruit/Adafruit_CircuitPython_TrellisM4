@@ -32,6 +32,7 @@ import adafruit_matrixkeypad
 
 try:
     from typing import List, Optional, Tuple, Union
+    from typing_extensions import Literal
     from microcontroller import Pin
 except ImportError:
     pass
@@ -43,7 +44,14 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_TrellisM4.git"
 class _NeoPixelArray:
     """Creates a NeoPixel array for use in the ``TrellisM4Express`` class."""
 
-    def __init__(self, pin: Pin, *, width: int, height: int, rotation: int = 0) -> None:
+    def __init__(
+        self,
+        pin: Pin,
+        *,
+        width: int,
+        height: int,
+        rotation: Literal[0, 90, 180, 270] = 0,
+    ) -> None:
         self._neopixel = neopixel.NeoPixel(pin, width * height, auto_write=True)
         if rotation % 90 != 0:
             raise ValueError("Only 90 degree rotations supported")
@@ -234,7 +242,7 @@ class TrellisM4Express:
             current_press = pressed
     """
 
-    def __init__(self, rotation: int = 0) -> None:
+    def __init__(self, rotation: Literal[0, 90, 180, 270] = 0) -> None:
         self._rotation = rotation
 
         # Define NeoPixels
