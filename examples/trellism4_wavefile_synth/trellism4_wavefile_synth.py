@@ -92,7 +92,7 @@ while True:
             # if it's a note key. First 7 columns.
             if key[0] < len(note_letters):
                 # if we aren't already playing this note and we have available voice
-                if key not in used_voices.keys() and available_voices:
+                if key not in used_voices and available_voices:
                     # build not string
                     note_for_key = "{}{}".format(note_letters[key[0]], key[1] + 3)
                     note_to_play = "{}{}".format(current_wave_type, note_for_key)
