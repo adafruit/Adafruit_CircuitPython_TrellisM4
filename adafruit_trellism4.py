@@ -25,15 +25,16 @@ Implementation Notes
 
 """
 
+import adafruit_matrixkeypad
 import board
 import digitalio
 import neopixel
-import adafruit_matrixkeypad
 
 try:
     from typing import List, Optional, Tuple, Union
-    from typing_extensions import Literal
+
     from microcontroller import Pin
+    from typing_extensions import Literal
 except ImportError:
     pass
 
@@ -56,7 +57,7 @@ class _NeoPixelArray:
         if rotation % 90 != 0:
             raise ValueError("Only 90 degree rotations supported")
         self._rotation = rotation % 360
-        if self._rotation in (90, 270):
+        if self._rotation in {90, 270}:
             width, height = height, width
         self._width = width
         self._height = height
@@ -82,7 +83,7 @@ class _NeoPixelArray:
         return self._neopixel[offset]
 
     def _calculate_pixel_offset(self, index: Tuple[int, int]) -> Optional[int]:
-        if self._rotation in (0, 180):
+        if self._rotation in {0, 180}:
             offset = self.width * index[1] + index[0]
             if self._rotation == 180:
                 offset = self.width * self.height - offset - 1
@@ -246,9 +247,7 @@ class TrellisM4Express:
         self._rotation = rotation
 
         # Define NeoPixels
-        self.pixels = _NeoPixelArray(
-            board.NEOPIXEL, width=8, height=4, rotation=rotation
-        )
+        self.pixels = _NeoPixelArray(board.NEOPIXEL, width=8, height=4, rotation=rotation)
         """Sequence like object representing the 32 NeoPixels on the Trellis M4 Express, Provides a
         two dimensional representation of the NeoPixel grid.
 
