@@ -7,11 +7,12 @@ This synthesizer is loaded with wave files for 3 octaves of notes each in 4 diff
 It uses Mixer to play up to 7 notes at once.
 Play notes with the rainbow buttons. Change waveform types ith the white buttons in the last column.
 """
-# pylint: disable=consider-using-with,consider-using-dict-items
+
 import board
 from audiocore import WaveFile
 from audioio import AudioOut
 from audiomixer import Mixer
+
 import adafruit_trellism4
 
 # trellis helper object
@@ -46,12 +47,10 @@ for wave_type in WAVE_TYPES:
     for octave in range(3, 6):  # [3,4,5]
         for note_letter in note_letters:
             # note with octave e.g. a4
-            cur_note = "{}{}".format(note_letter, octave)
+            cur_note = f"{note_letter}{octave}"
             # add wave file to dictionary
-            key = "{}{}".format(wave_type, cur_note)
-            notes[key] = WaveFile(
-                open("notes/{}/{}.wav".format(wave_type, cur_note), "rb")
-            )
+            key = f"{wave_type}{cur_note}"
+            notes[key] = WaveFile(open(f"notes/{wave_type}/{cur_note}.wav", "rb"))
 
 # main audio object
 audio = AudioOut(left_channel=board.A0, right_channel=board.A1)
@@ -94,8 +93,8 @@ while True:
                 # if we aren't already playing this note and we have available voice
                 if key not in used_voices and available_voices:
                     # build not string
-                    note_for_key = "{}{}".format(note_letters[key[0]], key[1] + 3)
-                    note_to_play = "{}{}".format(current_wave_type, note_for_key)
+                    note_for_key = f"{note_letters[key[0]]}{key[1] + 3}"
+                    note_to_play = f"{current_wave_type}{note_for_key}"
                     # if the note exists in the notes dictionary
                     if note_to_play in notes:
                         # get an available voice
