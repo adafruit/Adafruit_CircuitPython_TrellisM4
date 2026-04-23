@@ -111,13 +111,13 @@ while True:
                 trellis.pixels[7, key[1]] = (255, 255, 255)
         if mixer.playing:
             # loop over each note that is playing
-            for key in used_voices:
+            for key, value in list(used_voices.items()):
                 # if the key is no longer down
                 if key not in cur_keys:
                     # stop playing
-                    mixer.stop_voice(used_voices[key])
+                    mixer.stop_voice(value)
                     # recycle voice
-                    available_voices.append(used_voices[key])
+                    available_voices.append(value)
                     used_voices.pop(key, None)
     # update variable for next iteration
     prev_pressed = cur_keys
